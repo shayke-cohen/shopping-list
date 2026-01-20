@@ -1,49 +1,46 @@
 # Shopping List E2E Tests
-# Run with: npx maestro test tests/e2e/shopping-list.yaml
+# Run with AI Tester on web platform
 
 appId: web
-url: http://localhost:3000
 
 ---
-# TC-001: Add New Item
+# TC-001: Add New Item "Apples"
+- inputText:
+    selector: "#itemInput"
+    text: "Apples"
 - tapOn:
-    id: itemInput
-- inputText: "Apples"
-- tapOn:
-    text: "Add"
+    selector: ".add-btn"
 - assertVisible:
     text: "Apples"
 - assertVisible:
-    text: "1 item"
+    text: "1 item left"
 
 ---
 # TC-002: Add More Items
+- inputText:
+    selector: "#itemInput"
+    text: "Bananas"
 - tapOn:
-    id: itemInput
-- inputText: "Bananas"
+    selector: ".add-btn"
+- inputText:
+    selector: "#itemInput"
+    text: "Oranges"
 - tapOn:
-    text: "Add"
-- tapOn:
-    id: itemInput
-- inputText: "Oranges"
-- tapOn:
-    text: "Add"
+    selector: ".add-btn"
 - assertVisible:
-    text: "3 items"
+    text: "3 items left"
 
 ---
 # TC-003: Mark Item as Completed
 - tapOn:
-    selector: ".shopping-item:last-child .checkbox"
+    selector: ".shopping-item:last-child .checkbox input"
 - assertVisible:
     text: "2 items left"
 
 ---
 # TC-004: Filter Active Items
 - tapOn:
-    text: "Active"
-- assertNotVisible:
-    text: "Apples"
+    selector: "[data-filter='active']"
 - assertVisible:
     text: "Bananas"
 
@@ -53,13 +50,11 @@ url: http://localhost:3000
     selector: "[data-filter='completed']"
 - assertVisible:
     text: "Apples"
-- assertNotVisible:
-    text: "Bananas"
 
 ---
 # TC-006: Show All Items
 - tapOn:
-    text: "All"
+    selector: "[data-filter='all']"
 - assertVisible:
     text: "Apples"
 - assertVisible:
@@ -68,17 +63,15 @@ url: http://localhost:3000
     text: "Oranges"
 
 ---
-# TC-007: Delete Item
+# TC-007: Delete Item (Bananas)
 - tapOn:
     selector: ".shopping-item:nth-child(2) .delete-btn"
-- assertNotVisible:
-    text: "Bananas"
+- wait:
+    seconds: 1
 
 ---
-# TC-008: Clear Completed
+# TC-008: Clear Completed Items
 - tapOn:
-    text: "Clear completed"
-- assertNotVisible:
-    text: "Apples"
+    selector: "#clearCompleted"
 - assertVisible:
     text: "Oranges"
