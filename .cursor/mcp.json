@@ -1,0 +1,26 @@
+{
+  "mcpServers": {
+    "ai-native-engineer": {
+      "command": "/usr/local/bin/npx",
+      "args": ["-y", "@shaykec/ai-native-engineer"],
+      "env": {
+        "PATH": "/Users/shayco/.nvm/versions/node/v24.6.0/bin:/opt/homebrew/bin:/usr/bin:/bin"
+      }
+    },
+    "ai-tester": {
+      "command": "/Users/shayco/.nvm/versions/node/v24.6.0/bin/node",
+      "args": ["/Users/shayco/.npm/_npx/24426265d7fe17bb/node_modules/@shaykec/ai-tester/dist/mcp/index.js"],
+      "env": {
+        "PATH": "/Users/shayco/.nvm/versions/node/v24.6.0/bin:/opt/homebrew/bin:/usr/bin:/bin",
+        "MCP_LOG_LEVEL": "info"
+      }
+    },
+    "octocode": {
+      "command": "/usr/local/bin/npx",
+      "args": ["-y", "octocode-mcp@latest"],
+      "env": {
+        "PATH": "/Users/shayco/.nvm/versions/node/v24.6.0/bin:/opt/homebrew/bin:/usr/bin:/bin"
+      }
+    }
+  }
+}
