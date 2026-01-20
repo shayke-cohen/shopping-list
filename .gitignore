@@ -1,1 +1,4 @@
 .worktrees/
+
+# Test artifacts
+tests/videos/
