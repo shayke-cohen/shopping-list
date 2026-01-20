@@ -98,11 +98,31 @@ For detailed test information, see [tests/TEST_PLAN.md](tests/TEST_PLAN.md).
 
 ### Running Tests
 
-Tests can be run using the AI Tester MCP or Maestro:
+Tests are run using the [AI Tester MCP](https://github.com/testengai/ai-tester) which provides automated E2E testing with Playwright.
 
+**Using Cursor IDE with AI Tester MCP:**
+```
+Run the test file: tests/e2e/shopping-list.yaml
+```
+
+**Using AI Tester CLI:**
 ```bash
-# Using Maestro (if installed)
-maestro test tests/e2e/shopping-list.yaml
+# Install AI Tester CLI
+npm install -g @anthropic/ai-tester
+
+# Run tests
+ai-tester run tests/e2e/shopping-list.yaml --platform web --url http://localhost:3000
+```
+
+**Test file format:** The tests use a YAML-based format compatible with AI Tester:
+```yaml
+- inputText:
+    selector: "#itemInput"
+    text: "Apples"
+- tapOn:
+    selector: ".add-btn"
+- assertVisible:
+    text: "Apples"
 ```
 
 ## Browser Support
