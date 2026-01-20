@@ -1,0 +1,111 @@
+# Mobile Shopping List E2E Tests
+# Run with AI Tester on iOS/Android platform
+# Uses accessibility IDs defined in React Native components
+#
+# NOTE: There is a known issue with the Maestro YAML runner's inputText action
+# on mobile platforms. The direct AI Tester tool calls (input, tap) work correctly.
+# For now, run these tests manually using direct tool calls, or wait for the
+# YAML runner fix.
+#
+# Manual test example with direct tools:
+#   input({ platform: "ios", app: "host.exp.Exponent",
+#           strategy: "accessibility id", selector: "New item text", text: "Apples" })
+#   tap({ platform: "ios", app: "host.exp.Exponent",
+#         strategy: "accessibility id", selector: "Add item" })
+
+appId: host.exp.Exponent  # Expo Go app bundle ID
+
+---
+# TC-001: Initial Empty State  
+- assertVisible:
+    text: "Shopping List"
+- assertVisible:
+    text: "Your shopping list is empty"
+
+---
+# TC-002: Add First Item (using explicit id for inputText)
+- inputText:
+    id: "New item text"
+    text: "Apples"
+- tapOn:
+    id: "Add item"
+- assertVisible:
+    text: "Apples"
+- assertVisible:
+    text: "1 item left"
+
+---
+# TC-003: Add More Items
+- inputText:
+    id: "New item text"
+    text: "Bananas"
+- tapOn:
+    id: "Add item"
+- inputText:
+    id: "New item text"
+    text: "Milk"
+- tapOn:
+    id: "Add item"
+- assertVisible:
+    text: "3 items left"
+
+---
+# TC-004: Mark Item as Completed
+- tapOn:
+    id: "Mark Apples as complete"
+- assertVisible:
+    text: "2 items left"
+
+---
+# TC-005: Filter Active Items
+- tapOn:
+    id: "Filter by Active"
+- assertVisible:
+    text: "Bananas"
+- assertVisible:
+    text: "Milk"
+
+---
+# TC-006: Filter Completed Items
+- tapOn:
+    id: "Filter by Completed"
+- assertVisible:
+    text: "Apples"
+
+---
+# TC-007: Show All Items
+- tapOn:
+    id: "Filter by All"
+- assertVisible:
+    text: "Apples"
+- assertVisible:
+    text: "Bananas"
+- assertVisible:
+    text: "Milk"
+
+---
+# TC-008: Delete Item
+- tapOn:
+    id: "Delete Bananas"
+- assertVisible:
+    text: "Milk"
+
+---
+# TC-009: Clear Completed Items
+- tapOn:
+    id: "Clear completed items"
+- assertVisible:
+    text: "Milk"
+- assertVisible:
+    text: "1 item left"
+
+---
+# TC-010: Complete All and Clear
+- tapOn:
+    id: "Mark Milk as complete"
+- assertVisible:
+    text: "0 items left"
+- tapOn:
+    id: "Clear completed items"
+- assertVisible:
+    text: "Your shopping list is empty"
