@@ -107,11 +107,12 @@ Run the test file: tests/e2e/shopping-list.yaml
 
 **Using AI Tester CLI:**
 ```bash
-# Install AI Tester CLI
-npm install -g @anthropic/ai-tester
+# Run tests (no install needed, uses npx)
+npx @shaykec/ai-tester run-test --platform web --url http://localhost:3000 --path tests/e2e/shopping-list.yaml
 
-# Run tests
-ai-tester run tests/e2e/shopping-list.yaml --platform web --url http://localhost:3000
+# Or install globally
+npm install -g @shaykec/ai-tester
+ai-tester run-test --platform web --url http://localhost:3000 --path tests/e2e/shopping-list.yaml
 ```
 
 **Test file format:** The tests use a YAML-based format compatible with AI Tester:
