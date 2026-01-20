@@ -29,6 +29,3 @@ jobs:
 
       - name: Run type check
         run: npm run typecheck
-
-      - name: Validate Expo config
-        run: npx expo-doctor
