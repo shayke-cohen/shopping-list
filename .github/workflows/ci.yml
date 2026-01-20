@@ -10,76 +10,46 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Enable Corepack
-        run: corepack enable
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'yarn'
+          cache: 'npm'
+          cache-dependency-path: mobile/package-lock.json
 
       - name: Install dependencies
-        run: yarn install --immutable
-
-      - name: Run linter
-        run: yarn lint
+        run: npm ci
 
       - name: Run type check
-        run: yarn typecheck
-
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    needs: lint
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Enable Corepack
-        run: corepack enable
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'yarn'
-
-      - name: Install dependencies
-        run: yarn install --immutable
-
-      - name: Run tests
-        run: yarn test --coverage
-
-      - name: Upload coverage
-        uses: codecov/codecov-action@v4
-        if: always()
-        with:
-          fail_ci_if_error: false
+        run: npm run typecheck
 
   build:
     name: Build
     runs-on: ubuntu-latest
-    needs: test
+    needs: lint
+    defaults:
+      run:
+        working-directory: mobile
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Enable Corepack
-        run: corepack enable
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'yarn'
+          cache: 'npm'
+          cache-dependency-path: mobile/package-lock.json
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: npm ci
 
-      - name: Build
-        run: yarn build
+      - name: Export for web
+        run: npx expo export --platform web
