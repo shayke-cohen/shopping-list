@@ -1,0 +1,84 @@
+# Shopping List E2E Tests
+# Run with: npx maestro test tests/e2e/shopping-list.yaml
+
+appId: web
+url: http://localhost:3000
+
+---
+# TC-001: Add New Item
+- tapOn:
+    id: itemInput
+- inputText: "Apples"
+- tapOn:
+    text: "Add"
+- assertVisible:
+    text: "Apples"
+- assertVisible:
+    text: "1 item"
+
+---
+# TC-002: Add More Items
+- tapOn:
+    id: itemInput
+- inputText: "Bananas"
+- tapOn:
+    text: "Add"
+- tapOn:
+    id: itemInput
+- inputText: "Oranges"
+- tapOn:
+    text: "Add"
+- assertVisible:
+    text: "3 items"
+
+---
+# TC-003: Mark Item as Completed
+- tapOn:
+    selector: ".shopping-item:last-child .checkbox"
+- assertVisible:
+    text: "2 items left"
+
+---
+# TC-004: Filter Active Items
+- tapOn:
+    text: "Active"
+- assertNotVisible:
+    text: "Apples"
+- assertVisible:
+    text: "Bananas"
+
+---
+# TC-005: Filter Completed Items
+- tapOn:
+    selector: "[data-filter='completed']"
+- assertVisible:
+    text: "Apples"
+- assertNotVisible:
+    text: "Bananas"
+
+---
+# TC-006: Show All Items
+- tapOn:
+    text: "All"
+- assertVisible:
+    text: "Apples"
+- assertVisible:
+    text: "Bananas"
+- assertVisible:
+    text: "Oranges"
+
+---
+# TC-007: Delete Item
+- tapOn:
+    selector: ".shopping-item:nth-child(2) .delete-btn"
+- assertNotVisible:
+    text: "Bananas"
+
+---
+# TC-008: Clear Completed
+- tapOn:
+    text: "Clear completed"
+- assertNotVisible:
+    text: "Apples"
+- assertVisible:
+    text: "Oranges"
