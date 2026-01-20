@@ -126,6 +126,93 @@ ai-tester run-test --platform web --url http://localhost:3000 --path tests/e2e/s
     text: "Apples"
 ```
 
+## Development Workflow
+
+This project uses an AI-assisted development workflow with GitHub Issues, automated testing, and AI Tester integration.
+
+### Issue-Driven Development
+
+1. **Browse Issues**: Check [open issues](https://github.com/shayke-cohen/shopping-list/issues) for available tasks
+2. **Start Work**: Use the workflow script to begin:
+   ```bash
+   ./scripts/start-issue.sh <issue-number>
+   ```
+3. **Implement**: Follow the task file created at `.cursor-task.md`
+4. **Test**: Run E2E tests with AI Tester before submitting
+5. **Finish**: Create a PR with the finish script:
+   ```bash
+   ./scripts/finish-issue.sh <issue-number>
+   ```
+
+### AI Tester Integration
+
+Tests are automatically created and run using AI Tester:
+
+- **Screenshots**: Captured at each test step in `tests/screenshots/`
+- **Videos**: Full session recordings in `tests/videos/`
+- **YAML Tests**: Reusable test definitions in `tests/e2e/`
+
+### Workflow Scripts
+
+| Script | Purpose |
+|--------|---------|
+| `./scripts/start-issue.sh <n>` | Start working on issue #n |
+| `./scripts/finish-issue.sh <n>` | Create PR for issue #n |
+| `./scripts/check-ci.sh` | Verify CI status |
+
+---
+
+## AI-Assisted Development
+
+This repository is designed for AI-assisted development using Cursor IDE with MCP tools.
+
+### Example Prompts
+
+**Starting work on an issue:**
+```
+Start work on issue #1
+```
+
+**Running tests:**
+```
+Run the E2E tests for the shopping list app using AI Tester
+```
+
+**Creating new tests:**
+```
+Create an E2E test for the edit item feature
+```
+
+**Exploring the app:**
+```
+Open the shopping list app and show me the current state
+```
+
+**Code review:**
+```
+Review my changes and suggest improvements
+```
+
+**Creating a PR:**
+```
+Create a PR for issue #1 with a summary of changes
+```
+
+**Fixing test failures:**
+```
+The test failed on step 3. Analyze the screenshot and fix the issue.
+```
+
+### MCP Tools Available
+
+This project uses the following MCP servers (configured in `.cursor/mcp.json`):
+
+- **AI Tester** (`@shaykec/ai-tester`): Automated E2E testing with screenshots/videos
+- **AI Native Engineer** (`@shaykec/ai-native-engineer`): Project templates and workflows
+- **Octocode** (`octocode-mcp`): GitHub code research and exploration
+
+---
+
 ## Browser Support
 
 - Chrome (latest)
@@ -134,6 +221,15 @@ ai-tester run-test --platform web --url http://localhost:3000 --path tests/e2e/s
 - Edge (latest)
 
 ## Contributing
+
+### Quick Start
+
+1. Fork the repository
+2. Start work on an issue: `./scripts/start-issue.sh <issue-number>`
+3. Implement and test your changes
+4. Create a PR: `./scripts/finish-issue.sh <issue-number>`
+
+### Manual Workflow
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/amazing-feature`)
