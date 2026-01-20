@@ -258,6 +258,45 @@ body {
   font-size: 1rem;
   color: var(--text);
   word-break: break-word;
+  cursor: text;
+}
+
+.item-text:hover {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 3px;
+}
+
+/* Edit mode */
+.shopping-item.editing {
+  background: var(--card-bg);
+  box-shadow: var(--shadow-lg);
+}
+
+.edit-input {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--card-bg);
+  border: 2px solid var(--primary);
+  border-radius: 6px;
+  outline: none;
+  animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.edit-input:focus {
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
 }
 
 /* Delete button */

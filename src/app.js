@@ -59,6 +59,101 @@ class ShoppingList {
         this.deleteItem(itemId);
       }
     });
+
+    // Double-click to edit item
+    this.list.addEventListener('dblclick', (e) => {
+      const itemText = e.target.closest('.item-text');
+      if (itemText) {
+        const itemElement = itemText.closest('.shopping-item');
+        const itemId = itemElement.dataset.id;
+        this.startEdit(itemId);
+      }
+    });
+  }
+
+  /**
+   * Start editing an item
+   */
+  startEdit(id) {
+    const item = this.items.find(item => item.id === id);
+    if (!item) return;
+
+    const itemElement = this.list.querySelector(`[data-id="${id}"]`);
+    if (!itemElement) return;
+
+    const textSpan = itemElement.querySelector('.item-text');
+    if (!textSpan) return;
+
+    // Create edit input
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'edit-input';
+    input.value = item.text;
+    
+    // Replace text with input
+    textSpan.style.display = 'none';
+    textSpan.insertAdjacentElement('afterend', input);
+    itemElement.classList.add('editing');
+    
+    // Focus and select all text
+    input.focus();
+    input.select();
+
+    // Handle save on Enter
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        this.saveEdit(id, input.value);
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        this.cancelEdit(id);
+      }
+    });
+
+    // Handle save on blur (click outside)
+    input.addEventListener('blur', () => {
+      // Small delay to allow for cancel action
+      setTimeout(() => {
+        if (itemElement.classList.contains('editing')) {
+          this.saveEdit(id, input.value);
+        }
+      }, 100);
+    });
+  }
+
+  /**
+   * Save edited item text
+   */
+  saveEdit(id, newText) {
+    const trimmedText = newText.trim();
+    
+    // Don't save empty text
+    if (!trimmedText) {
+      this.cancelEdit(id);
+      return;
+    }
+
+    const item = this.items.find(item => item.id === id);
+    if (item) {
+      item.text = trimmedText;
+      this.saveToStorage();
+    }
+    
+    this.render();
+  }
+
+  /**
+   * Cancel editing and restore original text
+   */
+  cancelEdit(id) {
+    const itemElement = this.list.querySelector(`[data-id="${id}"]`);
+    if (itemElement) {
+      itemElement.classList.remove('editing');
+      const input = itemElement.querySelector('.edit-input');
+      const textSpan = itemElement.querySelector('.item-text');
+      if (input) input.remove();
+      if (textSpan) textSpan.style.display = '';
+    }
   }
 
   /**
